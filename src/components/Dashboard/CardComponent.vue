@@ -25,8 +25,8 @@
     </div>
 </template>
 
-<style scoped>
-
+<style scoped lang="scss">
+    @import "../../assets/css/ResponsiveMixins.scss";
     .main-pane__job-card {
         margin-top: 20px;
         margin-left: 20px;
@@ -39,6 +39,16 @@
         -webkit-box-shadow: -1px 0px 26px -2px rgba(0,0,0,0.62);
         -moz-box-shadow: -1px 0px 26px -2px rgba(0,0,0,0.62);
         box-shadow: -1px 0px 26px -2px rgba(0,0,0,0.62);
+        @include desktop {
+            width: 80vw;
+        }
+        @include tablet {
+            width: 80vw;
+        }
+        @include mobile {
+            margin-left: 0px;
+            width: 85vw;
+        }
     }
 
     .circle {
@@ -53,6 +63,12 @@
         display: flex;
         flex-direction: row;
         width: 95%;
+        @include tablet {
+            flex-wrap: wrap;
+        }
+        @include mobile {
+            flex-wrap: wrap;
+        }
     }
     .job-card__img {
         margin-top: 20px;
@@ -66,24 +82,47 @@
         margin-left: 30px;
         font-size: 22px;
         font-weight: bold;
+        width: 22.92vw;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        @include mobile {
+            width: 22.92vw;
+        }
     }
 
     .job-card__company {
-        margin-left: 250px;
+        margin-left: 17.36vw;
         margin-top: -10px;
         font-size: 14px;
         color: gray;
+        @include mobile {
+            margin-top: 10px;
+            margin-left: 8.36vw;
+        }
+        @include tablet {
+            margin-left: 32.36vw;
+        }
     }
 
     .job-card__time {
         margin-left: auto;
         margin-top: 25px;
+        @include mobile {
+            margin-left: 30px;
+        }
     }
     .jon-card__location {
-        margin-left: 250px;
+        margin-left:17.36vw;
         margin-top: 5px;
         font-size: 11px;
         color: gray;
+        @include mobile {
+            margin-left: 8.36vw;
+        }
+        @include tablet {
+            margin-left: 32.36vw;
+        }
     }
 
     .job-card__body {
