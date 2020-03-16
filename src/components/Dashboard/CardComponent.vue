@@ -85,6 +85,10 @@
         margin-left: 20px;
         width: auto;
         height: 60px;
+        @include mobile {
+            width: 160px;
+            height: auto;
+        }
     }
 
     .job-card__title {
@@ -104,6 +108,7 @@
 
     .job-card__company {
         margin-left: 17.36vw;
+        margin-top: 1em;
         font-size: 14px;
         color: gray;
         @include mobile {
