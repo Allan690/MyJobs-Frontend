@@ -7,46 +7,23 @@
     <img src="../../assets/menu.svg"
          alt="menu"
          class="container__menu-icon"
-         v-on:click="toggleMenu()"
+         v-on:click="showDrawer()"
     />
+    <a-drawer title="MyJobs"
+              placement="left"
+              :closable="false"
+              @close="onClose"
+              :visible="visible">
+      <jobs-component @fetch="filterJobs"> </jobs-component>
+    </a-drawer>
     <div class="container__side-pane">
-      <div class="container__logo">
-        <img src="../../assets/devjobs.png" alt="logo" class="container__logo__img"/>
-      </div>
-      <label class="container__location-label"> Location:
-        <a-input class="location-label__input"
-                placeholder="Enter job location..."
-                v-model.lazy="location"
-                @change="fetchJobs()"
-        />
-      </label>
-      <label class="container__language-label"> Language:
-        <a-input class="language-label__input"
-                 placeholder="Enter programming language..."
-                 v-model.lazy="language"
-                 @change="fetchJobs()"
-        />
-      </label>
-      <label class="container__latitude-label"> Latitude:
-       <a-input class="latitude__input"
-                placeholder="Enter the latitude"
-                v-model.lazy="latitude"
-                @change="fetchJobs()"
-       />
-      </label>
-      <label class="container__longitude-label"> Longitude:
-        <a-input class="longitude__input"
-                 placeholder="Enter the longitude..."
-                 v-model.lazy="longitude"
-                 @change="fetchJobs()"
-        />
-      </label>
-      <a-button type="primary"  class="container__submit-btn">Find Job</a-button>
+      <jobs-component @fetch="filterJobs"> </jobs-component>
     </div>
     <div class="container__main-pane">
-
+      <div class="spinner" v-if="loading">
+        <a-spin size="large"/>
+      </div>
       <div v-for="job in jobsArray" :key="job.id" class="container__card-container">
-       <a-skeleton active v-if="loading"> </a-skeleton>
         <card-component
          :logo="job.company_logo"
          :title="job.title"
@@ -79,15 +56,6 @@
     background-color: #ffffff;
   }
 
-  %shared-input-box-props {
-    display: flex;
-    margin-top: 10px;
-    width: 80%;
-    height: 40px;
-    text-indent: 13px;
-    font-size: 14px;
-    outline: none;
-  }
   .container__side-pane {
     @extend %shared-flex-container-properties;
     position: fixed;
@@ -124,54 +92,6 @@
       margin-left: 8%;
       width: 100vw;
     }
-  }
-  .location-label__input {
-    @extend %shared-input-box-props;
-  }
-  .container__logo {
-    margin-left: 20px;
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 20px;
-  }
-  .container__logo__img {
-    width: 60px;
-    height: 60px;
-  }
-  %shared-label-props {
-    margin-left: 20px;
-    margin-top: 20px;
-    font-weight: bold;
-  }
-  .container__location-label {
-    @extend %shared-label-props;
-  }
-  .container__language-label {
-    @extend %shared-label-props;
-  }
-  .language-label__input {
-   @extend %shared-input-box-props;
-  }
-  .container__latitude-label {
-    @extend %shared-label-props;
-  }
-  .latitude__input {
-    @extend %shared-input-box-props;
-  }
-  .container__longitude-label {
-    @extend %shared-label-props;
-  }
-  .longitude__input {
-    @extend %shared-input-box-props;
-  }
-  .container__submit-btn  {
-    margin-top: 40px;
-    margin-left: 40px;
-    font-weight: bold;
-    font-size: 16px;
-    height: 40px;
-    width: 60%;
-    text-align: center;
   }
   .container__input-search {
     position: fixed;
@@ -225,24 +145,30 @@
       display: none;
     }
   }
+  .spinner {
+    text-align: center;
+    margin-top: 50vh;
+  }
 
 
 </style>
 
 <script>
   import CardComponent from "@/components/Dashboard/CardComponent";
+  import JobsComponent from "@/components/Dashboard/JobsComponent";
   import validator from 'validator';
   import axios from 'axios';
 
   export default {
     name: 'main-dashboard',
     components: {
-      CardComponent
+      CardComponent, JobsComponent
     },
     data() {
       return {
          jobsArray: [],
          loading: false,
+         visible: false,
          location: '',
          longitude: '',
          latitude: '',
@@ -253,7 +179,7 @@
       async fetchJobs() {
        try {
          const herokuUrl = 'https://cors-anywhere.herokuapp.com';
-         let jobsUrl = `https://jobs.github.com/positions.json?description=${this.language}&full_time=true&location=${this.location}`
+         let jobsUrl = `https://jobs.github.com/positions.json?description=${this.language}&full_time=true&location=${this.location}`;
          if(!validator.isEmpty(this.longitude) && !validator.isEmpty(this.latitude)) {
            jobsUrl = `https://jobs.github.com/positions.json?description=${this.language}&full_time=true&long=${this.longitude}&lat=${this.latitude}`
          }
@@ -269,12 +195,21 @@
          console.error(error)
        }
       },
-      toggleMenu() {
-        const sidePane = document.querySelector('.container__side-pane');
-        if(sidePane.style.display === 'flex') {
-          return sidePane.style.display = 'none'
-        }
-        return sidePane.style.display = 'flex'
+      onClose() {
+        this.visible = false;
+      },
+      showDrawer() {
+        this.visible = true
+      },
+      filterJobs: function (event) {
+        const eventProps = ['location', 'language', 'longitude', 'latitude'];
+        eventProps.forEach((prop) => {
+           if(Object.prototype.hasOwnProperty.call(event, prop)) {
+             const eventProp = event[prop];
+             this.$set(this, prop, eventProp);
+             this.fetchJobs();
+           }
+        })
       }
     },
      async mounted() {

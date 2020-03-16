@@ -1,7 +1,11 @@
 <template>
     <div class="main-pane__job-card">
-        <div class="job-card__header">
-            <img :src="logo" alt="company-logo" class="job-card__img"/>
+        <div class="job-card__header" v-lazyload>
+            <ImageSpinner class="image__spinner"/>
+            <img :data-url="companyLogo"
+                 alt="company-logo"
+                 class="job-card__img"
+            />
             <div class="job-card__title"> {{ title }} </div>
             <div class="job-card__time"> {{ time }}</div>
         </div>
@@ -63,6 +67,12 @@
         display: flex;
         flex-direction: row;
         width: 95%;
+        &.loaded {
+            .image__spinner {
+                display: none;
+                width: 100%;
+            }
+        }
         @include tablet {
             flex-wrap: wrap;
         }
@@ -73,7 +83,7 @@
     .job-card__img {
         margin-top: 20px;
         margin-left: 20px;
-        width: 200px;
+        width: 180px;
         height: 60px;
     }
 
@@ -149,11 +159,18 @@
 </style>
 
 <script>
-    import truncate from 'vue-truncate-collapsed'
+    import truncate from 'vue-truncate-collapsed';
+    import ImageSpinner from './ImageSpinner';
+
     export default {
         name: 'card-component',
+        data() {
+            return {
+                companyLogo: this.logo || require('@/assets/devjobs.png')
+            }
+        },
         components: {
-            truncate
+            truncate, ImageSpinner
         },
         props: ['logo', 'title', 'company', 'location', 'time', 'description', 'howToApply']
     }
