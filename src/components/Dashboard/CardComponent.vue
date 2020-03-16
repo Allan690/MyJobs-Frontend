@@ -85,6 +85,10 @@
         margin-left: 20px;
         width: auto;
         height: 60px;
+        @include mobile {
+            width: 180px;
+            height: auto;
+        }
     }
 
     .job-card__title {
