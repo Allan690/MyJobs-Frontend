@@ -2,14 +2,14 @@
   <div id="container">
   <div class="container__app-logo-container">
     <img src="../../assets/job.svg" alt="AppLogo" class="container__app-logo"/>
-    <span class="container__my-jobs"> MyJobs</span>
+    <span class="container__my-jobs"> Developer Jobs</span>
   </div>
     <img src="../../assets/menu.svg"
          alt="menu"
          class="container__menu-icon"
          v-on:click="showDrawer()"
     />
-    <a-drawer title="MyJobs"
+    <a-drawer title="Developer Jobs"
               placement="left"
               :closable="false"
               @close="onClose"
@@ -131,7 +131,8 @@
     display: flex;
     position: fixed;
     margin-left: 16%;
-    font-size: 30px;
+    margin-right: 20px;
+    font-size: 24px;
     margin-top: 80px;
   }
   .container__app-logo-container {
