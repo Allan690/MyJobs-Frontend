@@ -158,7 +158,7 @@
   import CardComponent from "@/components/Dashboard/CardComponent";
   import JobsComponent from "@/components/Dashboard/JobsComponent";
   import validator from 'validator';
-  import axios from 'axios';
+  import axios from '../../utils/CacheAdapter';
 
   export default {
     name: 'main-dashboard',
@@ -179,14 +179,14 @@
     methods: {
       async fetchJobs() {
        try {
-         const herokuUrl = 'https://cors-anywhere.herokuapp.com';
-         let jobsUrl = `https://jobs.github.com/positions.json?description=${this.language}&full_time=true&location=${this.location}`;
+         const api = await axios();
+         let jobsUrl = `?description=${this.language}&full_time=true&location=${this.location}`;
          if(!validator.isEmpty(this.longitude) && !validator.isEmpty(this.latitude)) {
-           jobsUrl = `https://jobs.github.com/positions.json?description=${this.language}&full_time=true&long=${this.longitude}&lat=${this.latitude}`
+           jobsUrl = `?description=${this.language}&full_time=true&long=${this.longitude}&lat=${this.latitude}`
          }
-          const results = await axios.request({
+          const results = await api.request({
             method: 'get',
-            baseURL: `${herokuUrl}/${jobsUrl}`
+            url: jobsUrl
           });
           const { data } = results;
           this.jobsArray = data;
