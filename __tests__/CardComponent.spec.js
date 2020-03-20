@@ -20,6 +20,11 @@ describe('CardComponent', () => {
         });
     });
     it('is a Vue instance', () => {
+        console.log(wrapper.text())
         expect(wrapper.isVueInstance()).toBeTruthy()
+    });
+
+    it('renders correctly', () => {
+        expect(wrapper.element).toMatchSnapshot()
     });
 });

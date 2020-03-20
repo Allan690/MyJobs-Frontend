@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardComponent renders correctly 1`] = `
+<div
+  class="main-pane__job-card"
+>
+  <div
+    class="job-card__header"
+  >
+    <div
+      class="ripple image__spinner"
+    >
+      <div
+        class="ripple__circle"
+      />
+       
+      <div
+        class="ripple__circle ripple__inner-circle"
+      />
+    </div>
+     
+    <img
+      alt="company-logo"
+      class="job-card__img"
+      data-url="../src/assets/devjobs.png"
+      src="../src/assets/devjobs.png"
+    />
+     
+    <div
+      class="job-card__title"
+    >
+       test 
+    </div>
+     
+    <div
+      class="job-card__time"
+    >
+       
+    </div>
+  </div>
+   
+  <div
+    class="job-card__company"
+  >
+    test-company
+  </div>
+   
+  <div
+    class="jon-card__location"
+  >
+     test-location
+  </div>
+   
+  <div
+    class="job-card__body"
+  >
+    <div
+      data-v-11b2e33f=""
+      more="Show More"
+    >
+      <div
+        data-v-11b2e33f=""
+      >
+        <span
+          class=""
+          data-v-11b2e33f=""
+        />
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+  </div>
+   
+  <div
+    class="job-card__footer"
+  >
+    <div
+      class="job-card__application-link"
+    >
+      <span
+        style="font-weight: bold;"
+      >
+         How to apply: 
+      </span>
+       
+      <div
+        class="application-link__how-to-apply"
+      >
+        test-directions
+      </div>
+    </div>
+  </div>
+</div>
+`;
