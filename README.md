@@ -1,5 +1,7 @@
 # jobs-board
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ec50d009-450f-4def-b4b1-6d4506e012e2/deploy-status)](https://app.netlify.com/sites/developer-jobs/deploys)
+
 ## Project setup
 ```
 yarn install
